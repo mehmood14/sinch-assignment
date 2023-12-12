@@ -1,1 +1,1 @@
-# sinch-assignment
+# React + TypeScript + Vite + NextUI
