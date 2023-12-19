@@ -1,9 +1,38 @@
+import { Navbar } from '../components/Navbar';
+import { EnvConfig, Application } from './components';
+import { useApi } from './useApi';
+
 export const Dashboard = () => {
+  const {
+    environmentsList,
+    configurationsList,
+    setApplicationId,
+    setEnvironmentId,
+    environmentId,
+    applicationId,
+  } = useApi();
+
   return (
-    <div className="h-screen w-full flex justify-center">
-      <p className="text-3xl font-bold underline">
+    <div className="h-screen flex flex-col">
+      <p className="p-4 bg-slate-100 text-center">
         Sinch Configuration Manager
       </p>
+      <div className="flex h-full gap-6 p-10">
+        <Application
+          setApplicationId={(e) => {
+            setApplicationId(e);
+          }}
+        />
+        <EnvConfig
+          environmentsList={environmentsList}
+          configurationsList={configurationsList}
+          environmentId={environmentId}
+          applicationId={applicationId}
+          setEnvironmentId={(e) => {
+            setEnvironmentId(e.currentKey);
+          }}
+        />
+      </div>
     </div>
   );
 };
