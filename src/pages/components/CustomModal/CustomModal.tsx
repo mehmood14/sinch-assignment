@@ -9,15 +9,22 @@ import {
   useDisclosure,
   Input,
 } from '@nextui-org/react';
-import api from '../../api/autoFaqApi';
-import { EditIcon } from '../../assets/EditIcon';
+import api from '../../../api/api';
+import { EditIcon } from '../../../assets/EditIcon';
 
-export const CreateAppModal = ({
+interface props {
+  applicationId: string;
+  environmentId: string;
+  type: string;
+  fetchApplications: () => void;
+}
+
+export const CustomModal = ({
   fetchApplications,
   type,
   applicationId,
   environmentId,
-}) => {
+}: props) => {
   const [formData, setFormData] = useState({
     name: '',
     description: '',

@@ -18,8 +18,8 @@ export const Dashboard = () => {
       </p>
       <div className="flex h-full gap-6 p-10">
         <Application
-          setApplicationId={(e) => {
-            setApplicationId(e);
+          setApplicationId={(id: string) => {
+            setApplicationId(id);
           }}
         />
         <EnvConfig
@@ -28,7 +28,7 @@ export const Dashboard = () => {
           environmentId={environmentId}
           applicationId={applicationId}
           setEnvironmentId={(e) => {
-            setEnvironmentId(e.currentKey);
+            setEnvironmentId(e);
           }}
         />
       </div>

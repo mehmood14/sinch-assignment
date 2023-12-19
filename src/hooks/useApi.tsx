@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import api from '../api/autoFaqApi';
+import api from '../api/api';
 
 export const useApi = () => {
   const [environmentsList, setEnvironmentsList] = useState([]);
@@ -7,16 +7,11 @@ export const useApi = () => {
 
   const [applicationId, setApplicationId] = useState<string>('');
   const [environmentId, setEnvironmentId] = useState<string>('');
-
   const [configurationId, setConfigurationId] = useState<string>('');
 
   const fetchData = async (getDataFunction, setDataFunction, ...params) => {
-    try {
-      const data = await getDataFunction(...params);
-      setDataFunction(data.data);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
+    const data = await getDataFunction(...params);
+    setDataFunction(data.data);
   };
 
   useEffect(() => {

@@ -5,7 +5,7 @@ const baseURL = 'https://config-mgmt-dev.fly.dev/api/v1';
 const api = {
   //Applications
 
-  getApplications: (searchTerm) => {
+  getApplications: (searchTerm: string) => {
     return axiosClient.get(`${baseURL}/applications?searchTerm=${searchTerm}`);
   },
 
@@ -13,11 +13,11 @@ const api = {
     return axiosClient.post(`${baseURL}/applications`, body);
   },
 
-  putApplication: (body, applicationId) => {
+  putApplication: (body, applicationId: string) => {
     return axiosClient.put(`${baseURL}/applications/${applicationId}`, body);
   },
 
-  deleteApplication: (applicationId) => {
+  deleteApplication: (applicationId: string) => {
     return axiosClient.delete(`${baseURL}/applications/${applicationId}`);
   },
 
@@ -33,11 +33,11 @@ const api = {
     return axiosClient.post(`${baseURL}/configurations`, body);
   },
 
-  getConfigurationJson: (configurationId) => {
+  getConfigurationJson: (configurationId: string) => {
     return axiosClient.get(`${baseURL}/configurations/${configurationId}`);
   },
 
-  postConfigurationsValue: (configurationId) => {
+  postConfigurationsValue: (configurationId: string) => {
     return axiosClient.post(
       `${baseURL}/configurations/${configurationId}/active`
     );
@@ -45,20 +45,20 @@ const api = {
 
   //Environments
 
-  getEnvironments: (applicationId) => {
+  getEnvironments: (applicationId: string) => {
     return axiosClient.get(
       `${baseURL}/applications/${applicationId}/environments`
     );
   },
 
-  postEnvironment: (body, applicationId) => {
+  postEnvironment: (body, applicationId: string) => {
     return axiosClient.post(
       `${baseURL}/applications/${applicationId}/environments`,
       body
     );
   },
 
-  putEnvironment: (body, applicationId, environmentId) => {
+  putEnvironment: (body, applicationId: string, environmentId: string) => {
     return axiosClient.put(
       `${baseURL}/applications/${applicationId}/environments/${environmentId}`,
       body
