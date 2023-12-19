@@ -1,11 +1,10 @@
 import { Select, SelectItem } from '@nextui-org/select';
 import { JsonView } from '.';
 import { useEffect, useState } from 'react';
-import { Button, Card } from '@nextui-org/react';
+import { Card } from '@nextui-org/react';
 import { DeleteIcon } from '../../assets/DeleteIcon';
 import api from '../../api/autoFaqApi';
 import { CreateAppModal } from './CreateAppModal';
-import { AddNewJson } from './AddNewJson';
 
 export const EnvConfig = ({
   environmentsList,
@@ -31,8 +30,6 @@ export const EnvConfig = ({
   const deleteEnviornment = async (id) => {
     await api.deleteEnvironment({ applicationId, id });
   };
-
-  console.log('cong', configurationsList);
 
   return (
     <Card className="w-2/3 flex items-center flex-col p-4">

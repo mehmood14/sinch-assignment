@@ -1,6 +1,5 @@
-import { Navbar } from '../components/Navbar';
 import { EnvConfig, Application } from './components';
-import { useApi } from './useApi';
+import { useApi } from '../hooks/useApi';
 
 export const Dashboard = () => {
   const {
