@@ -31,7 +31,7 @@ export const JsonView = ({
   });
 
   return (
-    <div className="w-full gap-4 bg-gray-100 p-4 rounded-lg flex flex-col justify-between overflow-auto">
+    <div className="w-full gap-4 flex flex-col justify-between">
       <JsonBody
         jsonText={jsonText}
         setJsonText={(text: string) => setJsonText(text)}

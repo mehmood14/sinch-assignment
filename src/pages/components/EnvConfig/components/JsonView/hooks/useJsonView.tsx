@@ -17,8 +17,12 @@ export const useJsonView = ({
   const [duplicate, setDuplicate] = useState(false);
 
   const fetchData = async () => {
-    const { data } = await api.getConfigurationJson(configurationId);
-    setJsonText(JSON.stringify(data));
+    try {
+      const data = await api.getConfigurationJson(configurationId);
+      setJsonText(JSON.stringify(data.data));
+    } catch (error) {
+      console.log('error', error);
+    }
   };
 
   useEffect(() => {
@@ -41,17 +45,25 @@ export const useJsonView = ({
   }, [jsonText, duplicate]);
 
   const activateConfiguration = async () => {
-    await api.postConfigurationsValue(configurationId);
+    try {
+      await api.postConfigurationsValue(configurationId);
+    } catch (error) {
+      console.log('error', error);
+    }
     fetchData();
   };
 
   const addConfiguration = async () => {
     if (!isValid || !jsonText) return;
-    await api.postConfiguration({
-      applicationId,
-      enviromentId: environmentId,
-      data: JSON.parse(jsonText),
-    });
+    try {
+      await api.postConfiguration({
+        applicationId,
+        enviromentId: environmentId,
+        data: JSON.parse(jsonText),
+      });
+    } catch (error) {
+      console.log('error', error);
+    }
     setDuplicate(false);
   };
 

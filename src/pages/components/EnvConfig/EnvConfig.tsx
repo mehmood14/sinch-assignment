@@ -8,6 +8,7 @@ interface ConfigProps {
   setEnvironmentId: (id: string) => void;
   environmentId: string;
   applicationId: string;
+  loading: boolean;
 }
 
 export const EnvConfig = ({
@@ -16,6 +17,7 @@ export const EnvConfig = ({
   setEnvironmentId,
   environmentId,
   applicationId,
+  loading,
 }: ConfigProps) => {
   const [configurationId, setConfigurationId] = useState<string>('');
 
@@ -38,6 +40,7 @@ export const EnvConfig = ({
           applicationId={applicationId}
           configurationId={configurationId}
           setConfigurationId={(id: string) => setConfigurationId(id)}
+          loading={loading}
         />
         <JsonView
           configurationId={configurationId}

@@ -1,6 +1,6 @@
 import axiosClient from './axiosClient';
 
-const baseURL = 'https://config-mgmt-dev.fly.dev/api/v1';
+const baseURL = import.meta.env.VITE_API;
 
 const api = {
   //Applications
@@ -67,7 +67,7 @@ const api = {
 
   deleteEnvironment: (body) => {
     return axiosClient.delete(
-      `${baseURL}/applications/${body.applicationId}/environments/${body.id}`,
+      `${baseURL}/applications/${body.applicationId}/environments/${body.environmentId}`,
       body
     );
   },

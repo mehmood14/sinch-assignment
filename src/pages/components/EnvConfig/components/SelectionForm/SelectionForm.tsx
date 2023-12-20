@@ -2,8 +2,6 @@ import { Select, SelectItem } from '@nextui-org/react';
 import api from '../../../../../api/api';
 import { DeleteIcon } from '../../../../../assets/DeleteIcon';
 import { CustomModal } from '../../../CustomModal';
-import { useEffect } from 'react';
-
 interface props {
   environmentsList: [];
   configurationsList: [];
@@ -12,6 +10,7 @@ interface props {
   applicationId: string;
   configurationId: string;
   setConfigurationId: (id: string) => void;
+  loading: boolean;
 }
 
 export const SelectionForm = ({
@@ -22,11 +21,18 @@ export const SelectionForm = ({
   applicationId,
   configurationId,
   setConfigurationId,
+  loading,
 }: props) => {
-  console.log('dd', configurationId);
-  useEffect(() => {
-    setConfigurationId('');
-  }, [applicationId]);
+  const deleteEnv = async () => {
+    try {
+      await api.deleteEnvironment({
+        applicationId,
+        environmentId,
+      });
+    } catch (error) {
+      console.log('error', error);
+    }
+  };
 
   return (
     <>
@@ -37,6 +43,7 @@ export const SelectionForm = ({
             setEnvironmentId(e.currentKey);
           }}
           disallowEmptySelection
+          isLoading={loading}
         >
           {environmentsList.map((item) => (
             <SelectItem key={item.id} value={environmentId}>
@@ -44,30 +51,26 @@ export const SelectionForm = ({
             </SelectItem>
           ))}
         </Select>
+        <div className="flex items-center gap-2">
+          {environmentId && (
+            <>
+              <CustomModal
+                type="editEnv"
+                applicationId={applicationId}
+                fetchApplications={() => {}}
+                environmentId={environmentId}
+              />
+              <DeleteIcon onClick={deleteEnv} fontSize="2em" />
+            </>
+          )}
 
-        {environmentId && (
-          <>
-            <CustomModal
-              type="editEnv"
-              applicationId={applicationId}
-              fetchApplications={() => {}}
-              environmentId={environmentId}
-            />
-            <DeleteIcon
-              onClick={async () =>
-                await api.deleteEnvironment({ applicationId, environmentId })
-              }
-              fontSize="2em"
-            />
-          </>
-        )}
-
-        <CustomModal
-          fetchApplications={() => {}}
-          type="env"
-          applicationId={applicationId}
-          environmentId={''}
-        />
+          <CustomModal
+            fetchApplications={() => {}}
+            type="env"
+            applicationId={applicationId}
+            environmentId={''}
+          />
+        </div>
       </div>
       <div className="flex gap-3">
         <Select
@@ -77,6 +80,7 @@ export const SelectionForm = ({
           }}
           isDisabled={!environmentId}
           disallowEmptySelection
+          isLoading={loading}
         >
           {configurationsList.map((item) => (
             <SelectItem key={item.id} value={configurationId}>

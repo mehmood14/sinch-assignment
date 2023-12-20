@@ -8,7 +8,7 @@ export const SearchBar = ({
   fetchApplications,
 }) => {
   return (
-    <div className="flex gap-2">
+    <div className="flex gap-2 items-center">
       <Input
         classNames={{
           inputWrapper:

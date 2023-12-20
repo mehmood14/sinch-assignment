@@ -1,5 +1,5 @@
 import { Listbox, ListboxItem } from '@nextui-org/listbox';
-import { Card } from '@nextui-org/react';
+import { Card, Spinner } from '@nextui-org/react';
 import { DeleteIcon } from '../../../assets/DeleteIcon';
 import { useApplication } from './hooks';
 import { CustomModal } from '../CustomModal';
@@ -16,6 +16,7 @@ export const Application = ({ setApplicationId }: Props) => {
     applicationsList,
     setSearchedText,
     searchedText,
+    isLoading,
   } = useApplication();
 
   return (
@@ -25,37 +26,40 @@ export const Application = ({ setApplicationId }: Props) => {
         searchedText={searchedText}
         fetchApplications={fetchApplications}
       />
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        <Listbox
+          items={applicationsList}
+          onAction={(key) => setApplicationId(key)}
+          className="overflow-auto"
+          selectionMode="single"
+          disallowEmptySelection
+        >
+          {(item) => (
+            <ListboxItem
+              key={item.id}
+              endContent={
+                <>
+                  <CustomModal
+                    fetchApplications={fetchApplications}
+                    type="editApp"
+                    applicationId={item.id}
+                    environmentId={undefined}
+                  />
 
-      <Listbox
-        items={applicationsList}
-        onAction={(key) => setApplicationId(key)}
-        className="overflow-auto"
-        selectionMode="single"
-        disallowEmptySelection
-      >
-        {(item) => (
-          <ListboxItem
-            key={item.id}
-            endContent={
-              <>
-                <CustomModal
-                  fetchApplications={fetchApplications}
-                  type="editApp"
-                  applicationId={item.id}
-                  environmentId={undefined}
-                />
-
-                <DeleteIcon
-                  onClick={() => handleDeleteClick(item.id)}
-                  fontSize="1.5em"
-                />
-              </>
-            }
-          >
-            {item.name}
-          </ListboxItem>
-        )}
-      </Listbox>
+                  <DeleteIcon
+                    onClick={() => handleDeleteClick(item.id)}
+                    fontSize="1.5em"
+                  />
+                </>
+              }
+            >
+              {item.name}
+            </ListboxItem>
+          )}
+        </Listbox>
+      )}
     </Card>
   );
 };

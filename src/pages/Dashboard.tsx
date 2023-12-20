@@ -9,11 +9,12 @@ export const Dashboard = () => {
     setEnvironmentId,
     environmentId,
     applicationId,
+    loading,
   } = useApi();
 
   return (
     <div className="h-screen flex flex-col">
-      <p className="p-4 bg-slate-100 text-center">
+      <p className="p-4 text-center   dark:bg-default-500/20">
         Sinch Configuration Manager
       </p>
       <div className="flex h-full gap-6 p-10">
@@ -27,6 +28,7 @@ export const Dashboard = () => {
           configurationsList={configurationsList}
           environmentId={environmentId}
           applicationId={applicationId}
+          loading={loading}
           setEnvironmentId={(e) => {
             setEnvironmentId(e);
           }}

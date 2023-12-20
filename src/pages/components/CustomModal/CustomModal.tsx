@@ -8,9 +8,11 @@ import {
   Button,
   useDisclosure,
   Input,
+  Spinner,
 } from '@nextui-org/react';
 import api from '../../../api/api';
 import { EditIcon } from '../../../assets/EditIcon';
+import { AddNoteIcon } from '../../../assets/AddIcon';
 
 interface props {
   applicationId: string;
@@ -31,6 +33,7 @@ export const CustomModal = ({
     region: '',
   });
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
+  const [isLoading, setIsLoading] = useState(false);
 
   const onFormValueChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -38,20 +41,26 @@ export const CustomModal = ({
   };
 
   const saveApplication = async () => {
-    if (type === 'env') {
-      await api.postEnvironment(formData, applicationId);
+    try {
+      setIsLoading(true);
+      if (type === 'env') {
+        await api.postEnvironment(formData, applicationId);
+      }
+      if (type === 'editEnv') {
+        await api.putEnvironment(formData, applicationId, environmentId);
+        onClose();
+        return;
+      }
+      if (type === 'editApp') {
+        await api.putApplication(formData, applicationId);
+      }
+      if (type === 'app') {
+        await api.postApplication(formData);
+      }
+    } catch (error) {
+      console.log('error', error);
     }
-    if (type === 'editEnv') {
-      await api.putEnvironment(formData, applicationId, environmentId);
-      onClose();
-      return;
-    }
-    if (type === 'editApp') {
-      await api.putApplication(formData, applicationId);
-    }
-    if (type === 'app') {
-      await api.postApplication(formData);
-    }
+    setIsLoading(false);
     fetchApplications();
     onClose();
   };
@@ -69,9 +78,7 @@ export const CustomModal = ({
           fontSize={type === 'editEnv' ? '2em' : '1.5em'}
         />
       ) : (
-        <Button onPress={onOpen} isIconOnly>
-          +
-        </Button>
+        <AddNoteIcon onClick={() => onOpen()} fontSize="2em" />
       )}
 
       <Modal
@@ -110,10 +117,13 @@ export const CustomModal = ({
                 </Button>
                 <Button
                   onPress={saveApplication}
+                  isLoading={isLoading}
                   // isDisabled={!formData.name || !formData.description}
                 >
                   Save
                 </Button>
+
+                {/* {loading && <Spinner />} */}
               </ModalFooter>
             </>
           )}

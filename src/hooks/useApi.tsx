@@ -8,10 +8,17 @@ export const useApi = () => {
   const [applicationId, setApplicationId] = useState<string>('');
   const [environmentId, setEnvironmentId] = useState<string>('');
   const [configurationId, setConfigurationId] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(true);
 
   const fetchData = async (getDataFunction, setDataFunction, ...params) => {
-    const data = await getDataFunction(...params);
-    setDataFunction(data.data);
+    try {
+      setLoading(true);
+      const data = await getDataFunction(...params);
+      setDataFunction(data.data);
+    } catch (error) {
+      console.log('error', error);
+    }
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -41,5 +48,6 @@ export const useApi = () => {
     environmentId,
     setConfigurationId,
     configurationId,
+    loading,
   };
 };

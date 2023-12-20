@@ -5,12 +5,20 @@ import { useDebounce } from '../../../../hooks/useDebounce';
 export const useApplication = () => {
   const [searchedText, setSearchedText] = useState<string>('');
   const [applicationsList, setApplicationsList] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const query = useDebounce<string>(searchedText, 500);
 
   const fetchApplications = async () => {
-    const { data } = await api.getApplications(query);
-    setApplicationsList(data);
+    setIsLoading(true);
+    try {
+      const data = await api.getApplications(query);
+      setApplicationsList(data.data);
+    } catch (error) {
+      console.log('error', error);
+    }
+
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -18,7 +26,11 @@ export const useApplication = () => {
   }, [query]);
 
   const handleDeleteClick = async (id) => {
-    await api.deleteApplication(id);
+    try {
+      await api.deleteApplication(id);
+    } catch (error) {
+      console.log('error', error);
+    }
     fetchApplications();
   };
 
@@ -28,5 +40,6 @@ export const useApplication = () => {
     applicationsList,
     setSearchedText,
     searchedText,
+    isLoading,
   };
 };
